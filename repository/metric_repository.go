@@ -19,9 +19,9 @@ func NewMetricRepository(db *gorm.DB, table string) domain.MetricRepository {
 	}
 }
 
-func (ur *metricRepository) Create(c context.Context, user *domain.Metric) error {
+func (ur *metricRepository) Create(c context.Context, metric *domain.Metric) error {
 	table := ur.database.Table(ur.table)
-	tx := table.Create(user)
+	tx := table.Create(metric)
 	return tx.Error
 }
 
