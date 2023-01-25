@@ -43,8 +43,8 @@ func (mc *MetricController) Create(c *gin.Context) {
 	})
 }
 
-func (u *MetricController) Fetch(c *gin.Context) {
-	metrics, err := u.MetricUsecase.Fetch(c)
+func (mc *MetricController) Fetch(c *gin.Context) {
+	metrics, err := mc.MetricUsecase.Fetch(c)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, responses.ErrorResponse{Message: err.Error()})
 		return
@@ -53,10 +53,10 @@ func (u *MetricController) Fetch(c *gin.Context) {
 	c.JSON(http.StatusOK, metrics)
 }
 
-func (u *MetricController) GetByID(c *gin.Context) {
+func (mc *MetricController) GetByID(c *gin.Context) {
 	id := c.GetString("x-metric-id")
 
-	metric, err := u.MetricUsecase.GetByID(c, id)
+	metric, err := mc.MetricUsecase.GetByID(c, id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, responses.ErrorResponse{Message: err.Error()})
 		return
