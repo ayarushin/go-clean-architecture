@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber"
 )
 
 func main() {
@@ -16,13 +16,9 @@ func main() {
 
 	timeout := time.Duration(env.ContextTimeout) * time.Second
 
-	gin := gin.Default()
-	routerV1 := gin.Group("v1") // migrate to fasthttp
-	routeV1.Setup(env, timeout, db, routerV1)
+	server := fiber.New()
+	routerApi := server.Group("api")
+	routeV1.Setup(env, timeout, db, routerApi)
 
-	gin.Run(env.ServerAddress)
-
-	if err := gin.Run(env.ServerAddress); err != nil {
-		log.Fatalln(err)
-	}
+	log.Fatal(server.Listen(env.ServerAddress))
 }

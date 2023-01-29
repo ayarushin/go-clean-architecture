@@ -5,9 +5,8 @@ import (
 	"go-clean-architecture/domain"
 	"go-clean-architecture/domain/responses"
 	"net/http"
-	"strconv"
 
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber"
 )
 
 type MetricController struct {
@@ -15,52 +14,49 @@ type MetricController struct {
 	Env           *bootstrap.Env
 }
 
-func (mc *MetricController) Create(c *gin.Context) {
+func (mc *MetricController) Create(c *fiber.Ctx) {
 	var metric domain.Metric
 
-	err := c.ShouldBind(&metric)
+	err := c.BodyParser(&metric)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, responses.ErrorResponse{Message: err.Error()})
+		c.Status(http.StatusBadRequest).JSON(responses.ErrorResponse{Message: err.Error()})
 		return
 	}
 
-	id, err := strconv.ParseUint(c.GetString("x-metric-id"), 10, 64)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, responses.ErrorResponse{Message: err.Error()})
+		c.Status(http.StatusBadRequest).JSON(responses.ErrorResponse{Message: err.Error()})
 		return
 	}
 
-	metric.ID = id
-
-	err = mc.MetricUsecase.Create(c, &metric)
+	err = mc.MetricUsecase.Create(c.Context(), &metric)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, responses.ErrorResponse{Message: err.Error()})
+		c.Status(http.StatusInternalServerError).JSON(responses.ErrorResponse{Message: err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, responses.SuccessResponse{
+	c.Status(http.StatusOK).JSON(responses.SuccessResponse{
 		Message: "Task created successfully",
 	})
 }
 
-func (mc *MetricController) Fetch(c *gin.Context) {
-	metrics, err := mc.MetricUsecase.Fetch(c)
+func (mc *MetricController) Fetch(c *fiber.Ctx) {
+	metrics, err := mc.MetricUsecase.Fetch(c.Context())
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, responses.ErrorResponse{Message: err.Error()})
+		c.Status(http.StatusInternalServerError).JSON(responses.ErrorResponse{Message: err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, metrics)
+	c.Status(http.StatusOK).JSON(metrics)
 }
 
-func (mc *MetricController) GetByID(c *gin.Context) {
-	id := c.GetString("x-metric-id")
+func (mc *MetricController) GetByID(c *fiber.Ctx) {
+	id := c.Params(":id")
 
-	metric, err := mc.MetricUsecase.GetByID(c, id)
+	metric, err := mc.MetricUsecase.GetByID(c.Context(), id)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, responses.ErrorResponse{Message: err.Error()})
+		c.Status(http.StatusInternalServerError).JSON(responses.ErrorResponse{Message: err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, metric)
+	c.Status(http.StatusOK).JSON(metric)
 }
