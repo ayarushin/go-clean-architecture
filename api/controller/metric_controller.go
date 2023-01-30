@@ -6,7 +6,7 @@ import (
 	"go-clean-architecture/domain/responses"
 	"net/http"
 
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 )
 
 type MetricController struct {
@@ -14,49 +14,40 @@ type MetricController struct {
 	Env           *bootstrap.Env
 }
 
-func (mc *MetricController) Create(c *fiber.Ctx) {
+func (mc *MetricController) Create(c *fiber.Ctx) error {
 	var metric domain.Metric
 
 	err := c.BodyParser(&metric)
 	if err != nil {
-		c.Status(http.StatusBadRequest).JSON(responses.ErrorResponse{Message: err.Error()})
-		return
-	}
-
-	if err != nil {
-		c.Status(http.StatusBadRequest).JSON(responses.ErrorResponse{Message: err.Error()})
-		return
+		return c.Status(http.StatusBadRequest).JSON(responses.ErrorResponse{Message: err.Error()})
 	}
 
 	err = mc.MetricUsecase.Create(c.Context(), &metric)
 	if err != nil {
-		c.Status(http.StatusInternalServerError).JSON(responses.ErrorResponse{Message: err.Error()})
-		return
+		return c.Status(http.StatusInternalServerError).JSON(responses.ErrorResponse{Message: err.Error()})
 	}
 
-	c.Status(http.StatusOK).JSON(responses.SuccessResponse{
+	return c.Status(http.StatusOK).JSON(responses.SuccessResponse{
 		Message: "Task created successfully",
 	})
 }
 
-func (mc *MetricController) Fetch(c *fiber.Ctx) {
+func (mc *MetricController) Fetch(c *fiber.Ctx) error {
 	metrics, err := mc.MetricUsecase.Fetch(c.Context())
 	if err != nil {
-		c.Status(http.StatusInternalServerError).JSON(responses.ErrorResponse{Message: err.Error()})
-		return
+		return c.Status(http.StatusInternalServerError).JSON(responses.ErrorResponse{Message: err.Error()})
 	}
 
-	c.Status(http.StatusOK).JSON(metrics)
+	return c.Status(http.StatusOK).JSON(metrics)
 }
 
-func (mc *MetricController) GetByID(c *fiber.Ctx) {
+func (mc *MetricController) GetByID(c *fiber.Ctx) error {
 	id := c.Params(":id")
 
 	metric, err := mc.MetricUsecase.GetByID(c.Context(), id)
 	if err != nil {
-		c.Status(http.StatusInternalServerError).JSON(responses.ErrorResponse{Message: err.Error()})
-		return
+		return c.Status(http.StatusInternalServerError).JSON(responses.ErrorResponse{Message: err.Error()})
 	}
 
-	c.Status(http.StatusOK).JSON(metric)
+	return c.Status(http.StatusOK).JSON(metric)
 }

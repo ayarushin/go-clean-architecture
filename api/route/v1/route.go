@@ -4,7 +4,7 @@ import (
 	"go-clean-architecture/bootstrap"
 	"time"
 
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )
 
