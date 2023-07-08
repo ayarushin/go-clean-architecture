@@ -1,7 +1,7 @@
-package controller
+package metric
 
 import (
-	"go-clean-architecture/bootstrap"
+	"go-clean-architecture/bootstrap/env"
 	"go-clean-architecture/domain"
 	"go-clean-architecture/domain/responses"
 	"net/http"
@@ -11,7 +11,7 @@ import (
 
 type MetricController struct {
 	MetricUsecase domain.MetricUsecase
-	Env           *bootstrap.Env
+	Env           *env.Env
 }
 
 func (mc *MetricController) Create(c *fiber.Ctx) error {

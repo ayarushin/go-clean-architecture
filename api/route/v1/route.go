@@ -1,14 +1,15 @@
 package route
 
 import (
-	"go-clean-architecture/bootstrap"
+	metricRoute "go-clean-architecture/api/route/v1/metric"
+	"go-clean-architecture/bootstrap/env"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )
 
-func Setup(env *bootstrap.Env, timeout time.Duration, db *gorm.DB, routerV1 fiber.Router) {
+func Setup(env *env.Env, timeout time.Duration, db *gorm.DB, routerV1 fiber.Router) {
 	publicRouterV1 := routerV1.Group("v1")
-	NewMetricRoute(env, timeout, db, publicRouterV1)
+	metricRoute.New(env, timeout, db, publicRouterV1)
 }

@@ -1,14 +1,15 @@
-package bootstrap
+package database
 
 import (
 	"fmt"
+	"go-clean-architecture/bootstrap/env"
 	"log"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
-func NewDb(env *Env) *gorm.DB {
+func New(env *env.Env) *gorm.DB {
 	dbHost := env.DBHost
 	dbPort := env.DBPort
 	dbUser := env.DBUser

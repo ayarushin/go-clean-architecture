@@ -1,4 +1,4 @@
-package repository
+package metric
 
 import (
 	"context"
@@ -7,25 +7,25 @@ import (
 	"gorm.io/gorm"
 )
 
-type metricRepository struct {
+type repository struct {
 	database *gorm.DB
 	table    string
 }
 
-func NewMetricRepository(db *gorm.DB, table string) domain.MetricRepository {
-	return &metricRepository{
+func New(db *gorm.DB, table string) domain.MetricRepository {
+	return &repository{
 		database: db,
 		table:    table,
 	}
 }
 
-func (mr *metricRepository) Create(c context.Context, metric *domain.Metric) error {
+func (mr *repository) Create(c context.Context, metric *domain.Metric) error {
 	table := mr.database.WithContext(c).Table(mr.table)
 	tx := table.Create(metric)
 	return tx.Error
 }
 
-func (mr *metricRepository) Fetch(c context.Context, conds ...interface{}) ([]domain.Metric, error) {
+func (mr *repository) Fetch(c context.Context, conds ...interface{}) ([]domain.Metric, error) {
 	table := mr.database.WithContext(c).Table(mr.table)
 	var metrics []domain.Metric
 
@@ -38,7 +38,7 @@ func (mr *metricRepository) Fetch(c context.Context, conds ...interface{}) ([]do
 	return metrics, nil
 }
 
-func (mr *metricRepository) GetByID(c context.Context, id string) (domain.Metric, error) {
+func (mr *repository) GetByID(c context.Context, id string) (domain.Metric, error) {
 	table := mr.database.WithContext(c).Table(mr.table)
 
 	var metric domain.Metric

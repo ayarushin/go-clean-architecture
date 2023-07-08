@@ -1,4 +1,4 @@
-package bootstrap
+package env
 
 import (
 	"log"
@@ -17,7 +17,7 @@ type Env struct {
 	DBName         string `mapstructure:"DB_NAME"`
 }
 
-func NewEnv() *Env {
+func New() *Env {
 	env := Env{}
 	viper.SetConfigFile(".env")
 

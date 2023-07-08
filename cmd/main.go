@@ -2,7 +2,7 @@ package main
 
 import (
 	routeV1 "go-clean-architecture/api/route/v1"
-	"go-clean-architecture/bootstrap"
+	bootstrap "go-clean-architecture/bootstrap/app"
 	"log"
 	"time"
 
@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	app := bootstrap.App()
+	app := bootstrap.New()
 	env := app.Env
 	db := app.Db
 
