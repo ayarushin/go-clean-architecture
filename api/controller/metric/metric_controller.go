@@ -9,12 +9,12 @@ import (
 )
 
 type controller struct {
-	Usecase domain.MetricUsecase
+	usecase domain.MetricUsecase
 }
 
 func New(usecase domain.MetricUsecase) *controller {
 	return &controller{
-		Usecase: usecase,
+		usecase: usecase,
 	}
 }
 
@@ -26,7 +26,7 @@ func (c *controller) Create(ctx *fiber.Ctx) error {
 		return ctx.Status(http.StatusBadRequest).JSON(responses.ErrorResponse{Message: err.Error()})
 	}
 
-	err = c.Usecase.Create(ctx.Context(), &metric)
+	err = c.usecase.Create(ctx.Context(), &metric)
 	if err != nil {
 		return ctx.Status(http.StatusInternalServerError).JSON(responses.ErrorResponse{Message: err.Error()})
 	}
@@ -37,7 +37,7 @@ func (c *controller) Create(ctx *fiber.Ctx) error {
 }
 
 func (c *controller) Fetch(ctx *fiber.Ctx) error {
-	metrics, err := c.Usecase.Fetch(ctx.Context())
+	metrics, err := c.usecase.Fetch(ctx.Context())
 	if err != nil {
 		return ctx.Status(http.StatusInternalServerError).JSON(responses.ErrorResponse{Message: err.Error()})
 	}
@@ -48,7 +48,7 @@ func (c *controller) Fetch(ctx *fiber.Ctx) error {
 func (c *controller) GetByID(ctx *fiber.Ctx) error {
 	id := ctx.Params(":id")
 
-	metric, err := c.Usecase.GetByID(ctx.Context(), id)
+	metric, err := c.usecase.GetByID(ctx.Context(), id)
 	if err != nil {
 		return ctx.Status(http.StatusInternalServerError).JSON(responses.ErrorResponse{Message: err.Error()})
 	}

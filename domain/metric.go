@@ -12,13 +12,13 @@ type Metric struct {
 }
 
 type MetricRepository interface {
-	Create(c context.Context, metric *Metric) error
-	Fetch(c context.Context, conds ...interface{}) ([]Metric, error)
-	GetByID(c context.Context, id string) (Metric, error)
+	Create(ctx context.Context, metric *Metric) error
+	Fetch(ctx context.Context, conds ...interface{}) ([]Metric, error)
+	GetByID(ctx context.Context, id string) (Metric, error)
 }
 
 type MetricUsecase interface {
-	Create(c context.Context, metric *Metric) error
-	Fetch(c context.Context, conds ...interface{}) ([]Metric, error)
-	GetByID(c context.Context, id string) (Metric, error)
+	Create(ctx context.Context, metric *Metric) error
+	Fetch(ctx context.Context, conds ...interface{}) ([]Metric, error)
+	GetByID(ctx context.Context, id string) (Metric, error)
 }
