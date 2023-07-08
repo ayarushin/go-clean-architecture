@@ -2,26 +2,22 @@ package main
 
 import (
 	routeV1 "go-clean-architecture/api/route/v1"
-	"go-clean-architecture/bootstrap/app"
-	"go-clean-architecture/bootstrap/env"
+	"go-clean-architecture/bootstrap"
 	"log"
-	"time"
 
 	"github.com/gofiber/fiber/v2"
 )
 
 func main() {
-	env := env.New()
-	app := app.NewBuilder().
-		WithEnv(env).
+	app := bootstrap.Builder().
+		WithEnv().
 		// WithDB().
+		WithTimeout().
 		Build()
-
-	timeout := time.Duration(env.ContextTimeout) * time.Second
 
 	server := fiber.New()
 	routerApi := server.Group("api")
-	routeV1.Setup(env, timeout, app.Db, routerApi)
+	routeV1.Setup(app, routerApi)
 
-	log.Fatal(server.Listen(env.ServerAddress))
+	log.Fatal(server.Listen(app.Env.ServerAddress))
 }

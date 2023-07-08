@@ -19,14 +19,14 @@ func New(db *gorm.DB, table string) domain.MetricRepository {
 	}
 }
 
-func (mr *repository) Create(c context.Context, metric *domain.Metric) error {
-	table := mr.database.WithContext(c).Table(mr.table)
+func (r *repository) Create(c context.Context, metric *domain.Metric) error {
+	table := r.database.WithContext(c).Table(r.table)
 	tx := table.Create(metric)
 	return tx.Error
 }
 
-func (mr *repository) Fetch(c context.Context, conds ...interface{}) ([]domain.Metric, error) {
-	table := mr.database.WithContext(c).Table(mr.table)
+func (r *repository) Fetch(c context.Context, conds ...interface{}) ([]domain.Metric, error) {
+	table := r.database.WithContext(c).Table(r.table)
 	var metrics []domain.Metric
 
 	tx := table.Find(&metrics, conds)
@@ -38,8 +38,8 @@ func (mr *repository) Fetch(c context.Context, conds ...interface{}) ([]domain.M
 	return metrics, nil
 }
 
-func (mr *repository) GetByID(c context.Context, id string) (domain.Metric, error) {
-	table := mr.database.WithContext(c).Table(mr.table)
+func (r *repository) GetByID(c context.Context, id string) (domain.Metric, error) {
+	table := r.database.WithContext(c).Table(r.table)
 
 	var metric domain.Metric
 

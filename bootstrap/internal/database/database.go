@@ -2,7 +2,7 @@ package database
 
 import (
 	"fmt"
-	"go-clean-architecture/bootstrap/env"
+	"go-clean-architecture/bootstrap/internal/env"
 	"log"
 
 	"gorm.io/driver/postgres"

@@ -1,7 +1,6 @@
 package metric
 
 import (
-	"go-clean-architecture/bootstrap/env"
 	"go-clean-architecture/domain"
 	"go-clean-architecture/domain/responses"
 	"net/http"
@@ -11,13 +10,11 @@ import (
 
 type controller struct {
 	Usecase domain.MetricUsecase
-	Env     *env.Env
 }
 
-func New(usecase domain.MetricUsecase, env *env.Env) *controller {
+func New(usecase domain.MetricUsecase) *controller {
 	return &controller{
 		Usecase: usecase,
-		Env:     env,
 	}
 }
 
