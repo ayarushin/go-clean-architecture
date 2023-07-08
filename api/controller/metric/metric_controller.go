@@ -9,45 +9,52 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type MetricController struct {
-	MetricUsecase domain.MetricUsecase
-	Env           *env.Env
+type controller struct {
+	Usecase domain.MetricUsecase
+	Env     *env.Env
 }
 
-func (mc *MetricController) Create(c *fiber.Ctx) error {
+func New(usecase domain.MetricUsecase, env *env.Env) *controller {
+	return &controller{
+		Usecase: usecase,
+		Env:     env,
+	}
+}
+
+func (c *controller) Create(ctx *fiber.Ctx) error {
 	var metric domain.Metric
 
-	err := c.BodyParser(&metric)
+	err := ctx.BodyParser(&metric)
 	if err != nil {
-		return c.Status(http.StatusBadRequest).JSON(responses.ErrorResponse{Message: err.Error()})
+		return ctx.Status(http.StatusBadRequest).JSON(responses.ErrorResponse{Message: err.Error()})
 	}
 
-	err = mc.MetricUsecase.Create(c.Context(), &metric)
+	err = c.Usecase.Create(ctx.Context(), &metric)
 	if err != nil {
-		return c.Status(http.StatusInternalServerError).JSON(responses.ErrorResponse{Message: err.Error()})
+		return ctx.Status(http.StatusInternalServerError).JSON(responses.ErrorResponse{Message: err.Error()})
 	}
 
-	return c.Status(http.StatusOK).JSON(responses.SuccessResponse{
-		Message: "Task created successfully",
+	return ctx.Status(http.StatusOK).JSON(responses.SuccessResponse{
+		Message: "Metric created successfully",
 	})
 }
 
-func (mc *MetricController) Fetch(c *fiber.Ctx) error {
-	metrics, err := mc.MetricUsecase.Fetch(c.Context())
+func (c *controller) Fetch(ctx *fiber.Ctx) error {
+	metrics, err := c.Usecase.Fetch(ctx.Context())
 	if err != nil {
-		return c.Status(http.StatusInternalServerError).JSON(responses.ErrorResponse{Message: err.Error()})
+		return ctx.Status(http.StatusInternalServerError).JSON(responses.ErrorResponse{Message: err.Error()})
 	}
 
-	return c.Status(http.StatusOK).JSON(metrics)
+	return ctx.Status(http.StatusOK).JSON(metrics)
 }
 
-func (mc *MetricController) GetByID(c *fiber.Ctx) error {
-	id := c.Params(":id")
+func (c *controller) GetByID(ctx *fiber.Ctx) error {
+	id := ctx.Params(":id")
 
-	metric, err := mc.MetricUsecase.GetByID(c.Context(), id)
+	metric, err := c.Usecase.GetByID(ctx.Context(), id)
 	if err != nil {
-		return c.Status(http.StatusInternalServerError).JSON(responses.ErrorResponse{Message: err.Error()})
+		return ctx.Status(http.StatusInternalServerError).JSON(responses.ErrorResponse{Message: err.Error()})
 	}
 
-	return c.Status(http.StatusOK).JSON(metric)
+	return ctx.Status(http.StatusOK).JSON(metric)
 }

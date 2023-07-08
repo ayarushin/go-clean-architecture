@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func Setup(env *env.Env, timeout time.Duration, db *gorm.DB, routerV1 fiber.Router) {
-	publicRouterV1 := routerV1.Group("v1")
-	metricRoute.New(env, timeout, db, publicRouterV1)
+func Setup(env *env.Env, timeout time.Duration, db *gorm.DB, router fiber.Router) {
+	v1 := router.Group("v1")
+	metricRoute.New(env, timeout, db, v1)
 }

@@ -2,7 +2,8 @@ package main
 
 import (
 	routeV1 "go-clean-architecture/api/route/v1"
-	bootstrap "go-clean-architecture/bootstrap/app"
+	"go-clean-architecture/bootstrap/app"
+	"go-clean-architecture/bootstrap/env"
 	"log"
 	"time"
 
@@ -10,15 +11,17 @@ import (
 )
 
 func main() {
-	app := bootstrap.New()
-	env := app.Env
-	db := app.Db
+	env := env.New()
+	app := app.NewBuilder().
+		WithEnv(env).
+		// WithDB().
+		Build()
 
 	timeout := time.Duration(env.ContextTimeout) * time.Second
 
 	server := fiber.New()
 	routerApi := server.Group("api")
-	routeV1.Setup(env, timeout, db, routerApi)
+	routeV1.Setup(env, timeout, app.Db, routerApi)
 
 	log.Fatal(server.Listen(env.ServerAddress))
 }

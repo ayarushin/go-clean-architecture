@@ -13,12 +13,9 @@ import (
 )
 
 func New(env *env.Env, timeout time.Duration, db *gorm.DB, group fiber.Router) {
-	mr := repository.New(db, domain.MetricTable)
-	mc := &controller.MetricController{
-		MetricUsecase: usecases.New(mr, timeout),
-		Env:           env,
-	}
-	group.Post("/metric", mc.Create)
-	group.Get("/metric", mc.Fetch)
-	group.Get("/metric/:id", mc.GetByID)
+	r := repository.New(db, domain.MetricTable)
+	c := controller.New(usecases.New(r, timeout), env)
+	group.Post("/metric", c.Create)
+	group.Get("/metric", c.Fetch)
+	group.Get("/metric/:id", c.GetByID)
 }
