@@ -2,7 +2,8 @@ package metric
 
 import (
 	"context"
-	"go-clean-architecture/domain"
+
+	"github.com/ayarushin/go-clean-architecture/domain"
 
 	"gorm.io/gorm"
 )

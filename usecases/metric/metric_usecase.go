@@ -2,8 +2,9 @@ package metric
 
 import (
 	"context"
-	"go-clean-architecture/domain"
 	"time"
+
+	"github.com/ayarushin/go-clean-architecture/domain"
 )
 
 type usecase struct {

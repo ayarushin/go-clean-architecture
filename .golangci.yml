@@ -1,0 +1,9 @@
+linters:
+  enable:
+    - gosimple
+    - unused
+    - staticcheck
+run:
+  skip-dirs-use-default: false
+  skip-files:
+    - ^vendor/

@@ -1,9 +1,10 @@
 package metric
 
 import (
-	"go-clean-architecture/domain"
-	"go-clean-architecture/domain/responses"
 	"net/http"
+
+	"github.com/ayarushin/go-clean-architecture/domain"
+	"github.com/ayarushin/go-clean-architecture/domain/responses"
 
 	"github.com/gofiber/fiber/v2"
 )

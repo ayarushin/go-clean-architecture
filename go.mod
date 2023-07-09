@@ -1,4 +1,4 @@
-module go-clean-architecture
+module github.com/ayarushin/go-clean-architecture
 
 go 1.20
 

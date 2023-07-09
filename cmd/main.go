@@ -1,9 +1,10 @@
 package main
 
 import (
-	routeV1 "go-clean-architecture/api/route/v1"
-	"go-clean-architecture/bootstrap"
 	"log"
+
+	routeV1 "github.com/ayarushin/go-clean-architecture/api/route/v1"
+	"github.com/ayarushin/go-clean-architecture/bootstrap"
 
 	"github.com/gofiber/fiber/v2"
 )

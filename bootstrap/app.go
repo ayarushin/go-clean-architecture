@@ -1,9 +1,10 @@
 package bootstrap
 
 import (
-	"go-clean-architecture/bootstrap/internal/database"
-	"go-clean-architecture/bootstrap/internal/env"
 	"time"
+
+	"github.com/ayarushin/go-clean-architecture/bootstrap/internal/database"
+	"github.com/ayarushin/go-clean-architecture/bootstrap/internal/env"
 
 	"gorm.io/gorm"
 )

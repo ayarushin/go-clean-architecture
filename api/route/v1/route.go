@@ -1,8 +1,8 @@
 package route
 
 import (
-	metricRoute "go-clean-architecture/api/route/v1/metric"
-	"go-clean-architecture/bootstrap"
+	metricRoute "github.com/ayarushin/go-clean-architecture/api/route/v1/metric"
+	"github.com/ayarushin/go-clean-architecture/bootstrap"
 
 	"github.com/gofiber/fiber/v2"
 )

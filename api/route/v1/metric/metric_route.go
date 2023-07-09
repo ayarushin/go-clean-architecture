@@ -1,11 +1,11 @@
 package metric
 
 import (
-	controller "go-clean-architecture/api/controller/metric"
-	"go-clean-architecture/bootstrap"
-	"go-clean-architecture/domain"
-	repository "go-clean-architecture/repository/metric"
-	usecases "go-clean-architecture/usecases/metric"
+	controller "github.com/ayarushin/go-clean-architecture/api/controller/metric"
+	"github.com/ayarushin/go-clean-architecture/bootstrap"
+	"github.com/ayarushin/go-clean-architecture/domain"
+	repository "github.com/ayarushin/go-clean-architecture/repository/metric"
+	usecases "github.com/ayarushin/go-clean-architecture/usecases/metric"
 
 	"github.com/gofiber/fiber/v2"
 )
