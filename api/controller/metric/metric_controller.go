@@ -37,6 +37,24 @@ func (c *controller) Create(ctx *fiber.Ctx) error {
 	})
 }
 
+func (c *controller) Update(ctx *fiber.Ctx) error {
+	var metric domain.Metric
+
+	err := ctx.BodyParser(&metric)
+	if err != nil {
+		return ctx.Status(http.StatusBadRequest).JSON(responses.ErrorResponse{Message: err.Error()})
+	}
+
+	err = c.usecase.Update(ctx.Context(), &metric)
+	if err != nil {
+		return ctx.Status(http.StatusInternalServerError).JSON(responses.ErrorResponse{Message: err.Error()})
+	}
+
+	return ctx.Status(http.StatusOK).JSON(responses.SuccessResponse{
+		Message: "Metric updated successfully",
+	})
+}
+
 func (c *controller) Fetch(ctx *fiber.Ctx) error {
 	metrics, err := c.usecase.Fetch(ctx.Context())
 	if err != nil {

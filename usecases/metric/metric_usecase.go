@@ -25,6 +25,12 @@ func (u *usecase) Create(c context.Context, task *domain.Metric) error {
 	return u.repository.Create(ctx, task)
 }
 
+func (u *usecase) Update(c context.Context, task *domain.Metric) error {
+	ctx, cancel := context.WithTimeout(c, u.timeout)
+	defer cancel()
+	return u.repository.Update(ctx, task)
+}
+
 func (u *usecase) Fetch(c context.Context, conds ...interface{}) ([]domain.Metric, error) {
 	ctx, cancel := context.WithTimeout(c, u.timeout)
 	defer cancel()

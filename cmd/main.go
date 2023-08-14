@@ -12,7 +12,7 @@ import (
 func main() {
 	app := bootstrap.Builder().
 		WithEnv().
-		// WithDB().
+		WithDB().
 		WithTimeout().
 		Build()
 

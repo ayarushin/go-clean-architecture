@@ -26,6 +26,16 @@ func (r *repository) Create(ctx context.Context, metric *domain.Metric) error {
 	return tx.Error
 }
 
+func (r *repository) Update(ctx context.Context, metric *domain.Metric) error {
+	table := r.database.WithContext(ctx).Table(r.table)
+	return table.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Updates(metric).Error; err != nil {
+			return err
+		}
+		return nil
+	})
+}
+
 func (r *repository) Fetch(ctx context.Context, conds ...interface{}) ([]domain.Metric, error) {
 	table := r.database.WithContext(ctx).Table(r.table)
 	var metrics []domain.Metric

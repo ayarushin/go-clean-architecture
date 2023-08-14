@@ -1,6 +1,8 @@
 package domain
 
-import "context"
+import (
+	"context"
+)
 
 const (
 	MetricTable = "metrics"
@@ -13,12 +15,14 @@ type Metric struct {
 
 type MetricRepository interface {
 	Create(ctx context.Context, metric *Metric) error
+	Update(ctx context.Context, metric *Metric) error
 	Fetch(ctx context.Context, conds ...interface{}) ([]Metric, error)
 	GetByID(ctx context.Context, id string) (Metric, error)
 }
 
 type MetricUsecase interface {
 	Create(ctx context.Context, metric *Metric) error
+	Update(ctx context.Context, metric *Metric) error
 	Fetch(ctx context.Context, conds ...interface{}) ([]Metric, error)
 	GetByID(ctx context.Context, id string) (Metric, error)
 }
